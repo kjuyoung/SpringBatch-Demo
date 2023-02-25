@@ -1,0 +1,83 @@
+spring:
+  profiles:
+    group:
+      local: local-config,common
+      dev:  dev-config,common
+      prod: prod-config,common
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: common
+
+---
+jwt:
+  secret:
+    key: fjadsfkljl!$344KJLFDJLK!#$%123ASD9ASDJaksljsdfjkldsklfjdsafjlSDKJ31234ASDFJKJ23J23K
+
+spring:
+  config:
+    activate:
+      on-profile: local-config
+  datasource:
+    storage:
+      hikari:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/rroam?allowPublicKeyRetrieval=true&characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true
+        username: root
+        password: 1234
+    validation:
+      hikari:
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:tcp://localhost/~/test
+        username: sa
+        password:
+#        initialization-mode: always
+  jpa:
+    generate-ddl: false
+    open-in-view: false
+#    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show-sql: false
+        format_sql: true
+        default_batch_fetch_size: 1000
+  batch.jdbc:
+    initialize-schema: always
+  h2:
+    console.enable: true
+    console.path: /h2-console
+
+logging.level:
+#    org.springframework.web.client: DEBUG
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+---
+database: dev-mysql
+
+spring:
+  config:
+    activate:
+      on-profile: dev-config
+  datasource:
+    url: jdbc:mysql://dev-server/dev
+    username: root
+    password: 1234
+
+---
+database: prod-mysql
+
+spring:
+  config:
+    activate:
+      on-profile: prod-config
+  datasource:
+    url: jdbc:mysql://prod-server/prod
+    username: root
+    password: 1234
