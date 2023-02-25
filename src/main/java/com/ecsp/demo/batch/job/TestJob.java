@@ -1,7 +1,7 @@
 package com.ecsp.demo.batch.job;
 
 import com.ecsp.demo.batch.step.Step1;
-import com.ecsp.demo.common.config.JpaConfig;
+import com.ecsp.demo.common.config.StorageDatasourceConfig;
 import com.ecsp.demo.repository.storage.TestDefaultRepository;
 import com.ecsp.demo.repository.validation.TestValidRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -24,16 +24,17 @@ public class TestJob {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-    private final PlatformTransactionManager defaultTransactionManager;
+    private final PlatformTransactionManager storageTransactionManager;
 
     public TestJob(JobBuilderFactory jobBuilderFactory,
                    StepBuilderFactory stepBuilderFactory,
-                   @Qualifier(JpaConfig.STORAGE_TRANSACTION_MANAGER) PlatformTransactionManager defaultTransactionManager,
+//                   @Qualifier(JpaConfig.STORAGE_TRANSACTION_MANAGER) PlatformTransactionManager defaultTransactionManager,
+                   @Qualifier(StorageDatasourceConfig.STORAGE_TRANSACTION_MANAGER) PlatformTransactionManager storageTransactionManager,
                    TestDefaultRepository testDefaultRepository,
                    TestValidRepository testValidRepository) {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
-        this.defaultTransactionManager = defaultTransactionManager;
+        this.storageTransactionManager = storageTransactionManager;
         this.testDefaultRepository = testDefaultRepository;
         this.testValidRepository = testValidRepository;
     }
@@ -56,7 +57,7 @@ public class TestJob {
     public Step step1() {
         return stepBuilderFactory.get("step1")
                 .tasklet(new Step1(testDefaultRepository, testValidRepository))
-                .transactionManager(defaultTransactionManager)
+                .transactionManager(storageTransactionManager)
                 .build();
     }
 
