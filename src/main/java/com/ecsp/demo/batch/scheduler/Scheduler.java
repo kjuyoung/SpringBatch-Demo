@@ -47,4 +47,15 @@ public class Scheduler {
         jobLauncher.run(testJobConfig.ecspJob(), parameters);
         logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
+    
+    @Scheduled(cron = "30 * * * * *")
+    public void runTestScheduler() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+        log.info("============================================================================================");
+        log.info("Test Scheduler STARTED AT: " + LocalDateTime.now());
+        Date date = new Date();
+        jobLauncher.run(jobEvseTest.testJob(),
+                new JobParametersBuilder().addDate("launchedAt", date).toJobParameters());
+        log.info("Test Scheduler 완료 FINISHED AT: " + LocalDateTime.now());
+        log.info("============================================================================================");
+    }
 }
