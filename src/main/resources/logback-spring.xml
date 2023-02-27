@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+    <springProperty scope="context" name="applicationName" source="spring.application.name"/>
+
+    <springProfile name="loc">
+        <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    </springProfile>
+
+<!--     <springProfile name="k8s">
+        <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp/>
+                    <logLevel/>
+                    <message/>
+                    <pattern>
+                        <pattern>
+                            {
+                            "service": "${applicationName:-}",
+                            "trace": "%X{traceId:-}",
+                            "span": "%X{spanId:-}",
+                            "thread": "%thread",
+                            "class": "%logger"
+                            }
+                        </pattern>
+                    </pattern>
+                </providers>
+            </encoder>
+        </appender>
+        <root>
+            <appender-ref ref="consoleAppender"/>
+        </root>
+    </springProfile> -->
+</configuration><?xml version="1.0" encoding="UTF-8"?>
