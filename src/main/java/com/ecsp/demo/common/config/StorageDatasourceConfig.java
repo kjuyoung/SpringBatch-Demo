@@ -57,10 +57,9 @@ public class StorageDatasourceConfig {
     @Primary
     @Bean(name = STORAGE_ENTITY_MANAGER_FACTORY)
     public LocalContainerEntityManagerFactoryBean storageEntityManagerFactory(
-            @Qualifier(STORAGE_DATASOURCE) DataSource dataSource,
             EntityManagerFactoryBuilder builder) {
 
-        return builder.dataSource(dataSource)
+        return builder.dataSource(storageDataSource())
                     .packages(STORAGE_DOMAIN_PACKAGE)
                     .properties(new LinkedHashMap<>(hibernateProperties.determineHibernateProperties(
                                 jpaProperties.getProperties(), new HibernateSettings())))

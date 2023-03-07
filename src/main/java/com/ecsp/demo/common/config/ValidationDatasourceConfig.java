@@ -50,19 +50,21 @@ public class ValidationDatasourceConfig {
         return new LazyConnectionDataSourceProxy(new HikariDataSource(validationHikariConfig()));
     }
 
+    public JpaProperties jpaProperty() {
+        Map<String, String> property = new HashMap<>();
+        property.put( "hibernate.dialect", "org.hibernate.dialect.H2Dialect" );
+        jpaProperties.setProperties(property);
+        return jpaProperties;
+    }
+
     @Bean(name = VALIDATION_ENTITY_MANAGER_FACTORY)
     public LocalContainerEntityManagerFactoryBean validationEntityManagerFactory(
-            @Qualifier(VALIDATION_DATASOURCE) DataSource dataSource,
             EntityManagerFactoryBuilder builder)  {
 
-        Map<String, String> properties = new HashMap<>();
-        properties.put( "hibernate.dialect", "org.hibernate.dialect.H2Dialect" );
-        jpaProperties.setProperties(properties);
-
-        return builder.dataSource(dataSource)
+        return builder.dataSource(validationDataSource())
                     .packages(VALIDATION_DOMAIN_PACKAGE)
                     .properties(new LinkedHashMap<>(hibernateProperties.determineHibernateProperties(
-                                jpaProperties.getProperties(), new HibernateSettings())))
+                            jpaProperty().getProperties(), new HibernateSettings())))
                     .persistenceUnit("validationUnit")
                     .build();
     }
