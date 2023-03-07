@@ -28,7 +28,6 @@ public class TestJob {
 
     public TestJob(JobBuilderFactory jobBuilderFactory,
                    StepBuilderFactory stepBuilderFactory,
-//                   @Qualifier(JpaConfig.STORAGE_TRANSACTION_MANAGER) PlatformTransactionManager defaultTransactionManager,
                    @Qualifier(StorageDatasourceConfig.STORAGE_TRANSACTION_MANAGER) PlatformTransactionManager storageTransactionManager,
                    TestDefaultRepository testDefaultRepository,
                    TestValidRepository testValidRepository) {
