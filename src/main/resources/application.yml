@@ -57,6 +57,18 @@ logging.level:
 #    org.springframework.web.client: DEBUG
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+    root: info
+    jdbc:
+      sqlonly: info
+      sqltiming: off
+      audit: off
+      resultset: off
+      resultsettable: off
+      connection: off
+server:
+  shutdown: graceful
+  default:
+    time-zone: Asia/Seoul
 
 ---
 database: dev-mysql
